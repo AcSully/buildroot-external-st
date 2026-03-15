@@ -55,10 +55,19 @@ generate_flashlayout()
 			local FIP_DDR_FLASH="fip-ddr-stm32mp215_dk_usb.bin"
 			local ATF_FLASH="tf-a-stm32mp215_dk_usb.stm32"
 			;;
+		*"stm32mp257dak3"*)
+			local FIP_FLASH="fip-stm32mp257d-stm32mp257dak3-mx-optee-programmer-usb.bin"
+			local FIP_DDR_FLASH="fip-stm32mp257d-stm32mp257dak3-mx-ddr-optee-programmer-usb.bin"
+			local ATF_FLASH="tf-a-stm32mp257d-stm32mp257dak3-mx-optee-programmer-usb.stm32"
+			;;
 	esac
 	sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \
 		-e "s/%FIPDDRBIN%/${FIP_DDR_FLASH}/" \
 		${BOARD_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
+
+	sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \
+		-e "s/%FIPDDRBIN%/${FIP_DDR_FLASH}/" \
+		${BOARD_PATH}/flash_full.tsv > ${BINARIES_DIR}/flash_full.tsv
 
 	if [[ "${ATFBIN}" == *"ev1"* ]]; then
 		sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \

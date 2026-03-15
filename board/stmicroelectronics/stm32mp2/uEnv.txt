@@ -6,7 +6,7 @@ board_name=stm32mp2
 boot_extlinux=sysboot mmc ${mmcdev}:${distro_bootpart} any ${scriptaddr} /boot/extlinux/extlinux.conf
 boot_a=setenv distro_bootpart ${distro_bootpart_a}; setenv extlinux_bootpart rootfs-a ; setenv raucslot "rauc.slot=A"; echo "Booting from slot A"; run boot_extlinux;
 boot_b=setenv distro_bootpart ${distro_bootpart_b}; setenv extlinux_bootpart rootfs-b ; setenv raucslot "rauc.slot=B"; echo "Booting from slot B"; run boot_extlinux;
-set_bootdev=if test "x$boot_device" = "xnor"; then mmcdev=1; distro_bootpart_a=1; distro_bootpart_b=2; else mmcdev=0; distro_bootpart_a=8; distro_bootpart_b=9; fi;
+set_bootdev=if test "x$boot_device" = "xnor"; then mmcdev=1; distro_bootpart_a=1; distro_bootpart_b=2; else if test "$boot_instance" = "0"; then mmcdev=0; distro_bootpart_a=8; distro_bootpart_b=9; else mmcdev=1; distro_bootpart_a=6; distro_bootpart_b=7; fi; fi;
 bootcmd=run set_bootdev; run boot_a; echo "Boot failed"; run boot_b;
 altbootcmd=run set_bootdev; run boot_b; echo "Boot failed"; run boot_a;
 bootdelay=1
