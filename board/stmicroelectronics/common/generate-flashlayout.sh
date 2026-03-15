@@ -59,6 +59,7 @@ generate_flashlayout()
 			local FIP_FLASH="fip-stm32mp257d-stm32mp257dak3-mx-optee-programmer-usb.bin"
 			local FIP_DDR_FLASH="fip-stm32mp257d-stm32mp257dak3-mx-ddr-optee-programmer-usb.bin"
 			local ATF_FLASH="tf-a-stm32mp257d-stm32mp257dak3-mx-optee-programmer-usb.stm32"
+			local ATF_EMMC="tf-a-stm32mp257d-stm32mp257dak3-mx-optee-emmc.stm32"
 			;;
 	esac
 	sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \
@@ -79,6 +80,7 @@ generate_flashlayout()
 	if [ -n "${FIP_DDR_FLASH}" ]; then
 		#MP257
 		cp -f ${USB_FLASH_BINARIES_PATH}${FIP_DDR_FLASH} ${BINARIES_DIR}
+		cp -f ${USB_FLASH_BINARIES_PATH}${ATF_EMMC} ${BINARIES_DIR}
 	fi
 
 	exit $?
