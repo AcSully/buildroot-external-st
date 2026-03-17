@@ -1683,7 +1683,7 @@
 		 <&rcc CK_LPTIM4_AM>,
 		 <&scmi_clk CK_SCMI_IPCC2>,
 		 <&scmi_clk CK_SCMI_IPCC2_AM>;
-	status = "disable";
+	status = "disabled";
 };
 
 &ahbsr {
