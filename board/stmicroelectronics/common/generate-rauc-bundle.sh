@@ -16,6 +16,7 @@ generate_rauc_bundle()
 
 	rm -f ${BINARIES_DIR}/rootfs.raucb
 	${HOST_DIR}/bin/rauc bundle \
+		--mksquashfs-args="-no-compression -no-fragments" \
 		--signing-keyring ${TARGET_DIR}/etc/rauc/ca.cert.pem \
 		--cert ${TARGET_DIR}/etc/rauc/ca.cert.pem \
 		--key ${SCRIPT_PATH}/ca.key.pem \
@@ -23,6 +24,20 @@ generate_rauc_bundle()
 		${BINARIES_DIR}/rootfs.raucb
 
 	rm -rf ${RAUC_TMP}
+
+	# Generate casync chunk store and index for delta updates.
+	# Requires casync installed on the host.
+	if command -v casync >/dev/null 2>&1; then
+		rm -rf ${BINARIES_DIR}/rootfs.castr
+		casync make \
+			--chunk-size=131072 \
+			--store=${BINARIES_DIR}/rootfs.castr \
+			${BINARIES_DIR}/rootfs.caibx \
+			${BINARIES_DIR}/rootfs.raucb
+		echo "casync store generated: rootfs.caibx + rootfs.castr/"
+	else
+		echo "Warning: casync not found on host, skipping .caibx/.castr generation"
+	fi
 }
 
 generate_rauc_bundle $@
