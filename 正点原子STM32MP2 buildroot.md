@@ -26,7 +26,7 @@ make -j4
 
 
 
-打开STM32CubxMX，选择output/images/flash_full.tsv，烧录完成后，启动方式修改成EMMC启动.
+打开STM32CubeProgrammer，选择output/images/flash_full.tsv，烧录完成后，启动方式修改成EMMC启动.
 
 
 
